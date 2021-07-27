@@ -1,5 +1,6 @@
 from django import forms
-from .models import Question, Answer, Comment
+
+from pybo.models import Question, Answer, Comment
 
 
 class QuestionForm(forms.ModelForm):
