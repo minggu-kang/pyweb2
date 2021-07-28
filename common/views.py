@@ -1,24 +1,19 @@
-from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
-
 from .forms import UserForm
-
+from django.contrib.auth import authenticate, login
 
 def signup(request):
-    """
-    계정생성
-    """
     if request.method == "POST":
         form = UserForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('/pybo/board/')
-    else:
+            password1 = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password1) #로그인
+            login(request, user)   # 세션 권한을 획득(인증)
+            return redirect('index')
+    else:  # GET
         form = UserForm()
-    return render(request, 'common/signup.html', {'form': form})
-
+    context = {'form': form}
+    return render(request, 'common/signup.html', context)
 
